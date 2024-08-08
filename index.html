@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .time {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .units {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+
+        }
+
+        .units h2 {
+            font-size: 100px;
+        }
+
+        .time button {
+            padding: 10px 12px;
+            border-radius: 50%;
+            width: 120px;
+        }
+
+        .time .btns {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="time">
+        <div class="units">
+            <h2 id="displayTime">00:00:00</h2>
+        </div>
+        <div class="btns">
+            <button class="stop" onclick="pauseWatch()">Stop</button>
+            <button class="pause" onclick="watchStart()">Pause</button>
+            <button class="reset" onclick="resetWatch()">Reset</button>
+        </div>
+    </div>
+    <script>
+        let stop = document.querySelector(".stop")
+        let pause = document.querySelector(".pause")
+        let reset = document.querySelector(".reset")
+        let [sec, mins, hr] = [0, 0, 0]
+        let displayTime = document.getElementById("displayTime")
+        let timer = null;
+
+        function stopWatch() {
+            sec++
+            if (sec == 60) {
+                sec = 0
+                mins++;
+                if (mins == 60) {
+                    hr++
+                    if (hr == 12) {
+                        hr = 0
+                    }
+                }
+            }
+            let h = hr < 10 ? "0" + hr : hr;
+            let m = mins < 10 ? "0" + mins : mins;
+            let s = sec < 10 ? "0" + sec : sec;
+            displayTime.innerHTML = h + ":" + m + ":" + s
+        }
+        function watchStart() {
+            if (timer !== null) {
+                clearInterval(timer)
+            }
+            timer = setInterval(stopWatch, 1000)
+        }
+        function pauseWatch() {
+            clearInterval(timer)
+        }
+        function resetWatch() {
+            clearInterval(timer)
+            [sec, mins, hr] = [0, 0, 0]
+            console.log(hr)
+
+            displayTime.innerHTML = "00:00:00"
+        }
+
+
+    </script>
+</body>
+
+</html>
